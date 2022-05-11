@@ -51,9 +51,8 @@ public class PrimeCalculator {
         synchronized (primeNumbersToRemove) {
             for (Integer candidate : primeNumbers) {
                 executors.submit(() -> {
-                    try {
-                        isPrime(primeNumbers, candidate);
-                    } catch (Exception e) {
+                    if (!(isPrime(primeNumbers, candidate)))
+                    {
                         primeNumbersToRemove.add(candidate);
                     }
                     latch.countDown();
@@ -69,11 +68,12 @@ public class PrimeCalculator {
         return primeNumbers;
     }
 
-    private static void isPrime(List<Integer> primeNumbers, Integer candidate) throws Exception {
+    private static boolean isPrime(List<Integer> primeNumbers, Integer candidate) {
         for (Integer j : primeNumbers.subList(0, candidate - 2)) {
             if (candidate % j == 0) {
-                throw new Exception();
+                return false;
             }
         }
+        return true;
     }
 }
