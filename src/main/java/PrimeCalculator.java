@@ -48,17 +48,15 @@ public class PrimeCalculator {
         List<Integer> primeNumbersToRemove = Collections.synchronizedList(new LinkedList<>());
         CountDownLatch latch = new CountDownLatch(maxPrime);
         ExecutorService executors = Executors.newFixedThreadPool(Math.max(maxPrime / 100, 3000));
-        synchronized (primeNumbersToRemove) {
-            for (Integer candidate : primeNumbers) {
-                executors.submit(() -> {
-                    if (!(isPrime(primeNumbers, candidate)))
-                    {
-                        primeNumbersToRemove.add(candidate);
-                    }
-                    latch.countDown();
-                });
-            }
+        for (Integer candidate : primeNumbers) {
+            executors.submit(() -> {
+                if (!(isPrime(primeNumbers, candidate))) {
+                    primeNumbersToRemove.add(candidate);
+                }
+                latch.countDown();
+            });
         }
+
         latch.await();
         executors.shutdownNow();
         for (Integer toRemove : primeNumbersToRemove) {
