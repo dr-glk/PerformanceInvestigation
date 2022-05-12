@@ -40,7 +40,9 @@ public class PrimeCalculator {
     }
 
     private static boolean isPrime(Integer candidate) {
-        for (Integer j=2; j<candidate; j++) {
+        if (candidate<2) return false;
+        if ((candidate % 2 == 0) && (candidate!=2)) return false;
+        for (Integer j=3; j*j<candidate; j+=2) {
             if (candidate % j == 0) {
                 return false;
             }
