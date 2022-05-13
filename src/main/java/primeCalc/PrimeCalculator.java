@@ -1,3 +1,4 @@
+package primeCalc;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ public class PrimeCalculator {
         }
     }
 
-    private static List<Integer> getPrimes(int maxPrime) throws InterruptedException {
+    public static List<Integer> getPrimes(int maxPrime) throws InterruptedException {
         List<Integer> primeNumbers = Collections.synchronizedList(new LinkedList<>());
       
         CountDownLatch latch = new CountDownLatch(maxPrime-1);
